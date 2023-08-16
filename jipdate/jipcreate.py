@@ -231,6 +231,9 @@ def main():
                 if "Due date" in issue.keys():
                     fields["duedate"] = str(issue["Due date"])
 
+                if "Start date" in issue.keys():
+                    fields["customfield_10015"] = str(issue["Start date"])
+
                 if "IssueType" in issue.keys() and issue["IssueType"] == "Epic":
                     if "Epic Name" in issue.keys():
                         fields["customfield_10011"] = issue["Epic Name"]
