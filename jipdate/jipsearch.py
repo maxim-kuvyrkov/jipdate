@@ -237,10 +237,11 @@ def create_jql(jira, initial_jql):
 
 def search_issues(jira, jql):
     issues = []
-    result = {"startAt": 0, "total": 1}
+    start_at = 0
+    result = {"isLast": False}
     max_results = 50
 
-    while result["startAt"] < result["total"]:
+    while not result["isLast"]:
         if cfg.args.single_field:
             fields=[cfg.args.single_field[0]]
         else:
@@ -257,7 +258,7 @@ def search_issues(jira, jql):
         try:
             result = jira.search_issues(
                 jql,
-                startAt=result["startAt"],
+                startAt=start_at,
                 maxResults=max_results,
                 fields=fields,
                 json_result=True,
@@ -266,7 +267,7 @@ def search_issues(jira, jql):
             print(f"{e.text}")
             exit(1)
         issues += result["issues"]
-        result["startAt"] += max_results
+        start_at += max_results
 
     return issues
 
